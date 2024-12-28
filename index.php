@@ -6,7 +6,8 @@ include 'header.php';
 ?>
 <h1>Page Index </h1>
 <a href="login.php">Login</a> <br>
-<a href="regester.php">Regester</a>
+<a href="regester.php">Regester</a> <br>
+<a href="chat_page.php">Page Chat</a>
 
 
 

@@ -13,9 +13,7 @@
           event.preventDefault();
           event.stopPropagation();
         } else {
-
           if (event.target.classList.contains("isRegester")) {
-
             regester();
           }
 
@@ -54,24 +52,27 @@ function regester() {
   let lname = document.querySelector(".lname-regester").value;
   let email = document.querySelector(".email-regester").value;
   let pass = document.querySelector(".pass-regester").value;
-  let img = document.querySelector(".pass-regester").value;
-  // let img = document.querySelector(".img-regester").value;
-    
+  let img = document.querySelector(".img-regester");
 
-  nameComplt = fname + " " + lname;
+  nameComplt = fname + " " + lname; 
+
+  const formData = new FormData();
+
+   
+    formData.append("img", img.files[0]);
+ 
+  // console.log(formData);
+  // console.log("----------------------");
+ 
+  formData.append("email", email);
+  formData.append("pass", pass);
+  formData.append("nameComplt", nameComplt);
+  formData.append("form", "regester");
+ 
 
   fetch("connect.php", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email,
-      pass: pass,
-      nameComplt:nameComplt,
-      img:img,
-      form:"regester",
-    }),
+    body: formData,
   })
     .then((response) => {
       // Vérifier si la réponse est OK (code 200)
@@ -80,36 +81,36 @@ function regester() {
       }
       return response.json(); // Convertir la réponse en JSON
     })
-    .then((data) => {
-      console.log("Réponse du serveur :", data);
+    .then((data) => { 
       let divAlert = document.querySelector(".msg-fetch div");
       divAlert.parentElement.classList.remove("d-none");
       divAlert.innerHTML = data.message;
+      if (data.ok) {
+        rederect( "login.php"); 
+      }
     })
     .catch((error) => {
       console.error("Erreur lors de la requête fetch :", error);
     });
+  /*  */
 }
 
 function login() {
   let email = document.querySelector(".email-login").value;
-  let pass = document.querySelector(".password-login").value; 
-  console.log(
-    "-login--------" ,
-    email,
-    pass, 
-  );
+  let pass = document.querySelector(".password-login").value;
+
+  
+
+  var formData= new FormData();
+
+
+  formData.append( "email", email);
+  formData.append( "pass", pass);
+  formData.append( "form", "login");
 
   fetch("connect.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email,
-      pass: pass, 
-      form: "login",
-    }),
+    method: "POST", 
+    body:  formData,
   })
     .then((response) => {
       // Vérifier si la réponse est OK (code 200)
@@ -123,68 +124,15 @@ function login() {
       let divAlert = document.querySelector(".msg-fetch div");
       divAlert.parentElement.classList.remove("d-none");
       divAlert.innerHTML = data.message;
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la requête fetch :", error);
-    });
-}
- 
-
-
-
-
-
-
-
-
-
-
-function regester1() { 
-  let fname = document.querySelector(".fname-regester").value;
-  let lname = document.querySelector(".lname-regester").value;
-  let email = document.querySelector(".email-regester").value;
-  let pass = document.querySelector(".pass-regester").value;
-  let img = document.querySelector(".img-regester").value; 
-  console.log(
-    "-connect--------",
-    fname,
-    lname,
-    "---------",
-    email,
-    pass,
-    "---------",
-    img
-  );
-  nameComplt = fname + " " + lname;
-
-  fetch("connect.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email: email,
-      pass: pass,
-      name: nameComplt,
-      img: img,
-      form: "regester",
-    }),
-  })
-    .then((response) => {
-      // Vérifier si la réponse est OK (code 200)
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      if (data.ok) {
+        rederect("chat_page.php");
       }
-      return response.json(); // Convertir la réponse en JSON
-    })
-    .then((data) => {
-      console.log("Réponse du serveur :", data);
-      let divAlert = document.querySelector(".msg-fetch div");
-      divAlert.parentElement.classList.remove("d-none");
-      divAlert.innerHTML = data.message;
     })
     .catch((error) => {
       console.error("Erreur lors de la requête fetch :", error);
     });
 }
- 
+
+function rederect(locatnio) {
+  window.location.href = locatnio;
+}

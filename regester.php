@@ -6,8 +6,9 @@ include 'header.php';
 <div class=" regester ">
     <div class="container div-v  d-flex justify-content-center align-items-center">
         <div class="row col-md-7 ">
-            <form class="row g-3  needs-validation isRegester" enctype="multipart/form-data" novalidate>
-                <div class="col-md-6">
+            <form class="row g-3  needs-validation isRegester"
+             enctype="multipart/form-data" novalidate>
+                <div class="col-md-6"> 
                     <label for="validationCustom01" class="form-label">First name</label>
                     <input type="text" class="form-control fname-regester" id="validationCustom01" value="fname 1" required>
                     <div class="valid-feedback">
@@ -40,8 +41,8 @@ include 'header.php';
                 </div>
                 <div class="col-12  ">
                     <label for="validationCustom06" class="form-label">  Photo</label>
-                    <input class="form-control img-regester" type="file" id="validationCustom06" required>
-                    <div class="invalid-feedback">
+                    <input class="form-control img-regester" type="file" id="validationCustom06" accept="image/*" >
+                    <div class="invalid-feedback" >
                         Please Enter Photo
                     </div> 
                 </div>

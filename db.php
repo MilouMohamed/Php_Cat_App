@@ -50,16 +50,24 @@ class DataBaseAppChat
 
 
 
-    public static function checkUser($email, $pass)
+    public static function checkUser($email, $pass= null)
     {
         $connex = new DataBaseAppChat();
         $connex->connect();
+        if( $pass == null){ 
+        $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
+        $stmnt->execute([$email ]);
+        }
+        else { 
         $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=? and password = ?');
         $stmnt->execute([$email, $pass]);
+        }
         $u =  $stmnt->fetch();
 
         return $u ? $u : null;
     }
+
+ 
 
 
 
@@ -90,5 +98,6 @@ class DataBaseAppChat
         }
     }
 }
+define('UPLOAD_DIR', 'uploads/'); // Dossier où enregistrer les images
 
 //    DataBaseAppChat::addUser("1111", "2222", "3333", "4444") ;
