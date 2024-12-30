@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD']  == "POST") {
 
 
         define('MAX_FILE_SIZE', 4 * 1024 * 1024); // Taille maximale de 4 Mo
-    
+
 
         if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
             // Récupérer les informations sur le fichier
@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD']  == "POST") {
             if (!is_dir(UPLOAD_DIR)) {
                 mkdir(UPLOAD_DIR, 0777, true);
             }
- 
-  
-            
+
+
+
             if ($fileSize > MAX_FILE_SIZE) {
                 echo json_encode([
                     "message" => "Size Image > 4 mb s",
@@ -65,21 +65,21 @@ if ($_SERVER['REQUEST_METHOD']  == "POST") {
                 exit;
             }
 
-            
+
             $chek = DataBaseAppChat::checkUser($email);
-            
-            
+
+
             $ook = true;
             $msg = "Successfy Added";
             $nameIMG = uniqid() . "_" . basename($fileName);
-            move_uploaded_file($fileTmpPath,   UPLOAD_DIR."/".$nameIMG );
+            move_uploaded_file($fileTmpPath,   UPLOAD_DIR . "/" . $nameIMG);
 
             if (!is_null($chek)) { // si existe
                 $ook = false;
                 $msg = "This Account is Exist  ";
             } else {
-                $password = password_hash($password, PASSWORD_DEFAULT); 
-                 DataBaseAppChat::addUser($namComp, $email, $nameIMG, $password);
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                DataBaseAppChat::addUser($namComp, $email, $nameIMG, $password);
             }
 
             $response = array(
@@ -109,8 +109,14 @@ if ($_SERVER['REQUEST_METHOD']  == "POST") {
             $isEquelPass = password_verify($password, $chek->password);
 
             if ($isEquelPass) {
+                DataBaseAppChat::changeEtat($email, 1);
+                
                 session_start();
-                $_SESSION["user"] = ["email"=>$email,"img"=>  $chek->img];
+                $_SESSION["user"] = ["email" => $email, "img" =>  $chek->img, "etat" =>  1];
+
+              
+                
+              
             } else {
                 $ook = false;
                 $msg = "   Password Incorect";

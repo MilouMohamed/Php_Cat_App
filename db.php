@@ -84,7 +84,7 @@ class DataBaseAppChat
                 return false; 
             }
             // $pass=password_hash($pass,PASSWORD_DEFAULT);
-            $stmt =   $connx->prepare("INSERT INTO `users`( `name`, `email`, `img`, `password`) VALUES (?,?,?,?) ");
+            $stmt =   $connx->prepare("INSERT INTO `users`( `name`, `email`, `img`, `password`,`etat` ) VALUES (?,?,?,?,0) ");
 
             $stmt->execute([$name, $email, $img, $pass]);
 
@@ -97,6 +97,31 @@ class DataBaseAppChat
             return false;
         }
     }
+
+
+    public static function changeEtat($email, $etat){
+        try {
+          $cnx = new DataBaseAppChat(); 
+          $cnx->connect();
+
+          $stmt = $cnx->getConnection()->prepare('UPDATE  users  SET etat =? WHERE email=? ');
+           
+          $stmt->execute([$etat, $email]);
+       
+          
+        } catch (PDOException $e) { 
+         return 'Erreur : ' . $e->getMessage(); 
+        } 
+      }
+      
+
+
+
+
+
+
+
+
 }
 define('UPLOAD_DIR', 'uploads/'); // Dossier où enregistrer les images
 
