@@ -1,5 +1,8 @@
 <?php
 
+define('UPLOAD_DIR', 'uploads/'); // Dossier où enregistrer les images
+
+
 class DataBaseAppChat
 {
 
@@ -50,24 +53,46 @@ class DataBaseAppChat
 
 
 
-    public static function checkUser($email, $pass= null)
+    public static function checkUser($email, $pass = null)
     {
         $connex = new DataBaseAppChat();
         $connex->connect();
-        if( $pass == null){ 
-        $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
-        $stmnt->execute([$email ]);
-        }
-        else { 
-        $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=? and password = ?');
-        $stmnt->execute([$email, $pass]);
+        if ($pass == null) {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
+            $stmnt->execute([$email]);
+        } else {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=? and password = ?');
+            $stmnt->execute([$email, $pass]);
         }
         $u =  $stmnt->fetch();
 
         return $u ? $u : null;
     }
 
- 
+    public static function getAllUserWhere($email, $name, $id)
+    {
+        $connex = new DataBaseAppChat();
+        $connex->connect();
+        if ($email != "") {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
+            $stmnt->execute([$email]);
+        } else if ($name != "") {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE name like ?  ');
+            $stmnt->execute(["%$name%"]);
+        } else if ($id != "") {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE id=?  ');
+            $stmnt->execute([$id]);
+        }
+        else {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users`  ');
+            $stmnt->execute();
+        }
+        $u =  $stmnt->fetchAll();
+
+        return $u ? $u : null;
+    }
+
+
 
 
 
@@ -81,14 +106,14 @@ class DataBaseAppChat
         try {
             $user = self::checkUser($email, $pass);
             if ($user != null) {
-                return false; 
+                return false;
             }
             // $pass=password_hash($pass,PASSWORD_DEFAULT);
             $stmt =   $connx->prepare("INSERT INTO `users`( `name`, `email`, `img`, `password`,`etat` ) VALUES (?,?,?,?,0) ");
 
             $stmt->execute([$name, $email, $img, $pass]);
 
-            if ($stmt->rowCount() > 0) {  
+            if ($stmt->rowCount() > 0) {
                 return true;
             } else {
                 return false;
@@ -99,30 +124,34 @@ class DataBaseAppChat
     }
 
 
-    public static function changeEtat($email, $etat){
+    public static function changeEtat($email, $etat)
+    {
         try {
-          $cnx = new DataBaseAppChat(); 
-          $cnx->connect();
+            $cnx = new DataBaseAppChat();
+            $cnx->connect();
+            $stmt = $cnx->getConnection()->prepare('UPDATE  users  SET etat =? WHERE email=? ');
 
-          $stmt = $cnx->getConnection()->prepare('UPDATE  users  SET etat =? WHERE email=? ');
-           
-          $stmt->execute([$etat, $email]);
-       
-          
-        } catch (PDOException $e) { 
-         return 'Erreur : ' . $e->getMessage(); 
-        } 
-      }
-      
+            $stmt->execute([$etat, $email]);
+        } catch (PDOException $e) {
+            return 'Erreur : ' . $e->getMessage();
+        }
+    }
 
 
 
+    public static  function  getAllMsg()
+    {
+        $cnx = new DataBaseAppChat();
+        $cnx->connect();
+        $pdo = $cnx->getConnection();
 
+        $stmt = $pdo->prepare('SELECT * FROM `messages`');
+        $stmt->execute();
 
+        $messages = $stmt->fetchAll();
 
-
-
+        return $messages;
+    }
 }
-define('UPLOAD_DIR', 'uploads/'); // Dossier où enregistrer les images
 
 //    DataBaseAppChat::addUser("1111", "2222", "3333", "4444") ;

@@ -1,58 +1,59 @@
-.login,.regester  {
+.login,
+.regester {
+  background-image: radial-gradient(white, white 5%, black);
+}
+footer {
+  height: 40px;
+  background-image: linear-gradient(45deg, green, red);
+}
 
-    
-    background-image: radial-gradient( white ,white 5% ,  black);
-    
-    }
-    footer {
-        height: 40px;
-        background-image: linear-gradient(45deg,green,red); 
-    }
-    
-    .div-v {
-        height: calc(100vh - 40px);
-        max-width: 750px;
-    }
-    
-    .show-pass{
-        right: -20px;
-        top: 40px;
-        font-size: large; 
-        cursor: pointer;
-    }
-    .chat-page  {
-         background-color: rgb(98, 98, 98);
-    }
-    .chat-page  .div-v2{ 
-        height: calc(100vh - 40px) !important;; 
-         width: 100vw;  
-    }
-     
-    
-    .chat-page  .box-chat{ 
-        background-color: rgba(221, 221, 221, 0.4);
-        box-shadow: 1px 1px 20px 1px black ;
-       border-radius: 10px;
-        padding: 15px;
-        width: 500px;
-    }
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+.div-v {
+  height: calc(100vh - 40px);
+  max-width: 750px;
+}
+
+.show-pass {
+  right: -20px;
+  top: 40px;
+  font-size: large;
+  cursor: pointer;
+}
+.chat-page {
+  background-color: rgb(98, 98, 98);
+}
+.chat-page .div-v2 {
+  height: calc(100vh - 40px) !important;
+  width: 100vw;
+}
+
+.chat-page .box-chat {
+  background-color: rgba(221, 221, 221, 0.4);
+  box-shadow: 1px 1px 20px 1px black;
+  border-radius: 10px;
+  padding: 15px;
+  width: 500px;
+  min-width: 400px;
+}
+
+.chat-page .box-chat .list-users-serche a {
+  text-decoration: none;
+  color: black;
+  h5 {
+    color: rgba(0, 0, 0, 0.752);
+  }
+}
+
+.chat-page .box-chat .list-users-serche {
+  max-height: 350px;
+  overflow-y: scroll;
+}
+
+html {
+  scrollbar-color: rgba(255, 0, 0, 0.498) rgba(0, 128, 0, 0.466); /* Couleur de la scrollbar et du track (pour Firefox) */
+}
+
+.msg-page .div-v2 {
+  height: calc(100vh - 40px) !important;
+  width: 100vw;
+  background-color: gray;
+}

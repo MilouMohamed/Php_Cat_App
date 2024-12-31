@@ -3,9 +3,19 @@
 require 'redirect.php';
 include 'db.php';
 
-$page_title = "Page Chat Messages";
+$page_title = "Page Chat White Frend";
 
 include 'header.php';
+
+
+if(!isset($_GET['id_User'])) {
+echo '<div class="text-center alert alert-danger m-5 ">No User Here </div>';
+exit;
+}else {
+
+
+$idUserResept=intval($_GET['id_User']);
+
 
 $email =  $_SESSION['user']['email'];
 $user = DataBaseAppChat::checkUser($email);
@@ -14,7 +24,7 @@ $name =  $user->name;
 $etat =   $user->etat  == 1 ? "Online" : "Ofline";
 
 ?>
-<div class="chat-page  ">
+<div class="msg-page  ">
     <div class="  container  d-flex align-items-center justify-content-center">
 
         <div class="  div-v2  d-flex align-items-center justify-content-center ">
@@ -32,14 +42,12 @@ $etat =   $user->etat  == 1 ? "Online" : "Ofline";
 
                 <body>
                     <div class="btn-serhc d-flex ">
-                        <div class="input-group me-2">
-                            <input class="form-control" value="e" type="search" placeholder="Rechercher..." aria-label="Search"/>
-                            <button class="btn btn-outline-secondary me-2"  type="button"  id="clear_input">
-                               <i class="fa-solid fa-times"></i>  <!--  //x -->
-                            </button>
+                        <div class="input-group me-2"> 
+                            <input class="form-control" value="e" type="search" placeholder="Rechercher..." aria-label="Search">
+ 
                         </div>
 
-                        <button class="btn btn-outline-warning btn-valid" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <button class="btn btn-outline-warning" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </body>
 
@@ -66,6 +74,7 @@ $etat =   $user->etat  == 1 ? "Online" : "Ofline";
 
 
 <?php
+}
 include 'footer.php';
-
+ 
 ?>
