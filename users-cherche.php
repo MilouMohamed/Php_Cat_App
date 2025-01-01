@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             foreach ($getAllUsersByName as $user) {
                 if ($user->email !=  $emailUser) {
  
-                    $etat =  ($user->etat != 1) ? "Online" : "Ofline";
+                    $etat =  ($user->etat == 1) ? "Online" : "Ofline";
                     $class = ($etat == "Online") ? "text-success" : "text-danger";
 
                     $resul .= " <a href='boxMessage.php?id_User=" . $user->id . "'>  

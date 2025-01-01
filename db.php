@@ -53,17 +53,22 @@ class DataBaseAppChat
 
 
 
-    public static function checkUser($email, $pass = null)
+    public static function checkUser($email, $pass = null,$id=null)
     {
         $connex = new DataBaseAppChat();
         $connex->connect();
-        if ($pass == null) {
-            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
-            $stmnt->execute([$email]);
-        } else {
+
+        if ($email != null  and $pass != null  ){
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=? and password = ?');
             $stmnt->execute([$email, $pass]);
-        }
+        }else if ($email != null) {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
+            $stmnt->execute([$email]);
+        }else if ($id != null) {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE id=?  ');
+            $stmnt->execute([$id]);
+        } 
+
         $u =  $stmnt->fetch();
 
         return $u ? $u : null;
@@ -91,10 +96,7 @@ class DataBaseAppChat
 
         return $u ? $u : null;
     }
-
-
-
-
+ 
 
     public static function addUser($name, $email, $img, $pass)
     {
@@ -104,7 +106,7 @@ class DataBaseAppChat
         $connx = $connx->getConnection();
 
         try {
-            $user = self::checkUser($email, $pass);
+            $user = self::checkUser($email, $pass,null);
             if ($user != null) {
                 return false;
             }
@@ -136,6 +138,14 @@ class DataBaseAppChat
             return 'Erreur : ' . $e->getMessage();
         }
     }
+
+public static function maxCharText($txt,$lenght){
+if(strlen($txt) > $lenght){
+    return substr($txt,0,$lenght)." ...";
+}
+return  $txt ." ...";
+
+}
 
 
 

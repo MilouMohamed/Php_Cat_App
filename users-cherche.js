@@ -8,6 +8,7 @@ let inpt_serche = document.querySelector(".box-chat input"),
 //  console.log(btun_serche) ;
 //   console.log(inpt_serche) ; 
 //   console.log(btn_clear)   ;
+if( btun_serche != null){ 
 
 btun_serche.onclick = () => {
   txt = inpt_serche.value.trim();
@@ -53,3 +54,4 @@ btn_clear.onclick = () => {
   div_liste.innerHTML="";
 
 };
+}
