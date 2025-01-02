@@ -140,8 +140,6 @@ function videChamp($elent) {
   }
 }
 
-
-
 /***************************************************** */
 /***************************************************** */
 /***** SEND MESSAGE ********************************** */
@@ -150,43 +148,77 @@ let form = document.querySelector("form.chat-form");
 
 if (form) {
   let bntSend = form.querySelector("button.btn-send-msg"),
-    inpt = form.querySelector("input.inpt-msg"),
-    body_msg = document.querySelector(".body-msg");
+    inpt = form.querySelector("input.inpt-msg");
+  
+ 
+  setInterval(() => {
+    syncData(0);
+  }, 800);
 
-  form.onsubmit = (e) => {
+  form.onsubmit = (e) => { 
     e.preventDefault();
   };
 
- 
-  bntSend.addEventListener("click", () => {
+  // bntSend.addEventListener("click", () => {
+  bntSend.onclick = () => {
     if (inpt.value == "") {
       alert("No Message !!!");
       return;
-    } 
+    }
+    syncData(1);
+  }; // adevent
+} // if Form
 
-    const formData = new FormData(form);
 
-    fetch("sendMsg.php", {
-      method: "POST",
-      body: formData,
+ 
+function syncData(isClick = 0) {
+
+  const formData = new FormData(form); 
+  let body_msg = document.querySelector(".body-msg") 
+  , line = document.querySelector(".line");
+
+  formData.append("isClick", isClick);
+
+  fetch("sendMsg.php", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Convertir la réponse en JSON
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+    .then((responce) => {
+      if (!responce.ok) {
+        console.log("then 2  ", responce.etatMsg);
+      } else {
+        body_msg.innerHTML = responce.allMsg;
+        
+    scrollBottom();
+    
+        if(responce.line){
+          line.innerHTML=  "Online"   ;
+          line.classList.add('text-success');
+          line.classList.remove('text-danger');
+        }else {
+          line.innerHTML= "Ofline" ;
+          line.classList.remove('text-success');
+          line.classList.add('text-danger'); 
         }
-        return response.json(); // Convertir la réponse en JSON
-      })
-      .then((responce) => { 
-        if (!responce.ok) {
-          console.log("Errors ", responce.message);
-        }
-        else {
-          body_msg.innerHTML=responce.message;
-        }
-      })
-      .catch((error) => {
-        console.log("Erro de catch " , error);
-        body_msg.innerHTML=error;
-      });
-  });
+          
+        // body_msg.innerHTML = responce;
+      
+      }
+    })
+    .catch((error) => {
+      console.log("Erro de catch ", error);
+      body_msg.innerHTML = error;
+    });
+   
+}
+
+function scrollBottom() {
+  let body_msg = document.querySelector(".body-msg");
+  body_msg.scrollTop = body_msg.scrollHeight;
 }

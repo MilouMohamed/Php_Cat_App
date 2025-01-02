@@ -102,6 +102,7 @@ html {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    font-size: 22px;
   }
 }
 .msg-page .body-msg .my { 
@@ -113,6 +114,6 @@ html {
 .msg-page .body-msg .his { 
   border-top-left-radius:  0px;
   margin-right: auto;
-}
+} 
 
 /******************  page box messagge END ****************/

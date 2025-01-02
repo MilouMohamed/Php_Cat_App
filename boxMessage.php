@@ -26,8 +26,8 @@ if (!isset($_GET['id_User'])) {
     $idUserResept = intval($_GET['id_User']);
     $user = DataBaseAppChat::checkUser(NULL, NULL, $idUserResept);
     $img = UPLOAD_DIR . $user->img;
-    $etat =   $user->etat  == 1 ? "Online" : "Ofline";
-    $class = ($etat == "Online") ? "text-success" : "text-danger";
+    $etat =   $user->etat  == 1 ? "Online" : "Ofline";// sup
+    $class = ($etat == "Online") ? "text-success" : "text-danger";// sup
     $name = $user->name;
     $name = DataBaseAppChat::maxCharText($name, 16);
     // var_dump($my_user);
@@ -49,55 +49,20 @@ if (!isset($_GET['id_User'])) {
                     <img class="rounded-circle mx-2 my-1   border border-1 border-black" width="50px" height="50px" src="./<?= $img  ?>" alt="No Image Profile">
                     <div class="info-user ">
                         <h5><?= $name   ?></h5>
-                        <p class="m-1 <?= $class ?> fw-bolder"><?= $etat  ?></p>
+                        <p class="m-1  line fw-bolder"> </p>
                     </div>
                 </div>
                 <a href="logout.php" class="btn  btn-dark ms-auto  rounded-end-5   ">logout</a>
             </header>
 
             <div class="body-msg ">
-
-                <div class="my msg">
-                    <p>Hay 1 my</p>
-                </div>
-                <div class="his msg">
-                    <p>Haw Are you 2 his</p>
-                </div>
-
-                <div class="my msg">
-                    <p>Hay 3 my</p>
-                </div>
-                <div class="his msg">
-                    <p>Haw Are his 4</p>
-                </div>
-                <div class="his msg">
-                    <p>Haw Are his 5</p>
-                </div>
-                <div class="my msg">
-                    <p>Hay 3 my</p>
-                </div>
-                <div class="his msg">
-                    <p>Haw Are his 4</p>
-                </div>
-                <div class="his msg">
-                    <p>Haw Are his 5</p>
-                </div>
-
-                <div class="my msg">
-                    <p>Hay 3 my Hay 3 my Hay 3 my Hay 3 my Hay 3 my Hay 3 my</p>
-                </div>
-
-                <div class="his msg">
-                    <p>Hay 3 his Hay 3 his Hay 3 his Hay 3 my Hay 3 my Hay 3 my</p>
-                </div>
-
             </div>
 
             <form class="form p-3  chat-form" method="POST">
                 <div class="btn-serhc d-flex ">
                     <div class="input-group me-2">
                         <input type="hidden" name="id_Recep" value="<?= $idUserResept ?>">
-                        <input class="form-control inpt-msg" value="new msg" type="search" name="msg" placeholder="Rechercher..." aria-label="Search">
+                        <input class="form-control inpt-msg" value="new msg here" type="tetx" name="msg" placeholder="Rechercher..." aria-label="Search">
                     </div>
 
                     <button class="btn btn-outline-danger me-2" type="button" onclick="videChamp('.inpt-msg')"><i class="fa-solid fa-delete-left"></i></button>
@@ -119,6 +84,7 @@ if (!isset($_GET['id_User'])) {
 
 
     <script src="jscript.js"></script>
+
 <?php
 }
 include 'footer.php';

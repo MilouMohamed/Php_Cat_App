@@ -25,7 +25,7 @@ $etat =   $user->etat  == 1 ? "Online" : "Ofline";
                     <img class="rounded-circle m-1 me-4 mb-2 border border-1 border-black" width="65px" height="65px" src="./<?= $img  ?>" alt="No Image Profile">
                     <div class="info-user ">
                         <h5><?= $name   ?></h5>
-                        <p class="m-1 text-success fw-bolder"><?= $etat  ?></p>
+                        <p class="m-1 text-success etat fw-bolder"><?= $etat  ?></p>
                     </div>
                     <a href="logout.php" class="btn  btn-dark ms-auto  ">logout</a>
                 </header>

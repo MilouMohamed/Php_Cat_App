@@ -3,16 +3,13 @@ header('Content-Type: application/json'); // En-tête JSON
 
 
 $resul = "Error ";
-$stat = false;
-
+$stat = false; 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $name = isset($_POST['nameUser']) ? $_POST['nameUser'] : "m";
     if (!empty($name)) {
 
-
-
-
+ 
         $stat = true;
         require_once 'db.php';
 

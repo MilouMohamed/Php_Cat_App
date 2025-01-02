@@ -53,21 +53,21 @@ class DataBaseAppChat
 
 
 
-    public static function checkUser($email, $pass = null,$id=null)
+    public static function checkUser($email, $pass = null, $id = null)
     {
         $connex = new DataBaseAppChat();
         $connex->connect();
 
-        if ($email != null  and $pass != null  ){
+        if ($email != null  and $pass != null) {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=? and password = ?');
             $stmnt->execute([$email, $pass]);
-        }else if ($email != null) {
+        } else if ($email != null) {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
             $stmnt->execute([$email]);
-        }else if ($id != null) {
+        } else if ($id != null) {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE id=?  ');
             $stmnt->execute([$id]);
-        } 
+        }
 
         $u =  $stmnt->fetch();
 
@@ -87,8 +87,7 @@ class DataBaseAppChat
         } else if ($id != "") {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE id=?  ');
             $stmnt->execute([$id]);
-        }
-        else {
+        } else {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users`  ');
             $stmnt->execute();
         }
@@ -96,7 +95,7 @@ class DataBaseAppChat
 
         return $u ? $u : null;
     }
- 
+
 
     public static function addUser($name, $email, $img, $pass)
     {
@@ -106,7 +105,7 @@ class DataBaseAppChat
         $connx = $connx->getConnection();
 
         try {
-            $user = self::checkUser($email, $pass,null);
+            $user = self::checkUser($email, $pass, null);
             if ($user != null) {
                 return false;
             }
@@ -139,28 +138,58 @@ class DataBaseAppChat
         }
     }
 
-public static function maxCharText($txt,$lenght){
-if(strlen($txt) > $lenght){
-    return substr($txt,0,$lenght)." ...";
-}
-return  $txt ." ...";
+    public static function maxCharText($txt, $lenght)
+    {
+        if (strlen($txt) > $lenght) {
+            return substr($txt, 0, $lenght) . " ...";
+        }
+        return  $txt . " ...";
+    }
 
-}
 
 
-
-    public static  function  getAllMsg()
+    public static  function  getAllMsgSendRecep($send, $recep)
     {
         $cnx = new DataBaseAppChat();
         $cnx->connect();
         $pdo = $cnx->getConnection();
-
-        $stmt = $pdo->prepare('SELECT * FROM `messages`');
-        $stmt->execute();
+        $query = "where 
+        user_msg_send = ? and user_msg_recep = ? 
+    or  user_msg_send = ? and user_msg_recep = ?";
+        $stmt = $pdo->prepare("SELECT * FROM `messages` $query order by id_msg ASC ");
+        $stmt->execute([$send, $recep, $recep, $send]);
 
         $messages = $stmt->fetchAll();
 
         return $messages;
+    }
+
+    public static function addMsg($msg, $id_Send, $id_Recep)
+    {
+        try {
+
+            $cnx = new DataBaseAppChat();
+            $cnx->connect();
+            $pdo = $cnx->getConnection();
+
+            $stmnt = $pdo->prepare("INSERT INTO `messages`( `msg` , `user_msg_send`, `user_msg_recep`) VALUES (?,?,?)");
+            $stmnt->execute([$msg, $id_Send, $id_Recep]);
+            return true;
+        } catch (PDOException $err) {
+            return false;
+        }
+
+        /*
+ try {
+            $cnx = new DataBaseAppChat();
+            $cnx->connect();
+            $stmt = $cnx->getConnection()->prepare('UPDATE  users  SET etat =? WHERE email=? ');
+
+            $stmt->execute([$etat, $email]);
+        } catch (PDOException $e) {
+            return 'Erreur : ' . $e->getMessage();
+        }
+        */
     }
 }
 

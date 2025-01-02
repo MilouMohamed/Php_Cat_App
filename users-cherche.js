@@ -36,6 +36,9 @@ btun_serche.onclick = () => {
         div_liste.innerHTML = responce.message;
         if (!responce.ok) {
           console.log("Errors ", responce.message);
+        }else {
+          if(responce.etat)
+          document.querySelector('.etat').innerHTML="";
         }
       })
       .catch((error) => {
