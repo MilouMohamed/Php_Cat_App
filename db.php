@@ -81,9 +81,12 @@ class DataBaseAppChat
         if ($email != "") {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE email=?  ');
             $stmnt->execute([$email]);
-        } else if ($name != "") {
+        } else if ($name != "*") {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE name like ?  ');
             $stmnt->execute(["%$name%"]);
+        } else if ($name == "*") {
+            $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` order by name ');
+            $stmnt->execute();
         } else if ($id != "") {
             $stmnt =  $connex->getConnection()->prepare('SELECT * FROM `users` WHERE id=?  ');
             $stmnt->execute([$id]);

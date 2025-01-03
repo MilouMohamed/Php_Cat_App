@@ -49,7 +49,7 @@ footer {
 }
 
 html {
-  scrollbar-color: rgba(255, 0, 0, 0.498) rgba(0, 128, 0, 0.466); /* Couleur de la scrollbar et du track (pour Firefox) */
+  scrollbar-color: rgba(0, 0, 0, 0.18) rgba(0, 0, 0, 0.097); /* Couleur de la scrollbar et du track (pour Firefox) */ 
 }
 
 .msg-page .div-v2 {

@@ -5,7 +5,7 @@ header('Content-Type: application/json'); // En-tête JSON
 
 $stat = false;
 $allMsg = "Error To Send Msg  ";
-
+$line=false;
  
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -18,12 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_Recep = htmlspecialchars($id_Recep, ENT_QUOTES, 'UTF-8');
     $msg = htmlspecialchars($msg, ENT_QUOTES, 'UTF-8');
 
+
  
-    if (!empty($id_Recep) && !empty($msg)) {
+    if (!empty($id_Recep)) {
 
         $stat = true; 
         require_once 'db.php';
 
+         
         $userRecep=DataBaseAppChat::checkUser(null,null,$id_Recep);
         if($userRecep){
             $line=  $userRecep->etat == 1 ? true : false ;
@@ -40,30 +42,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $my_id = $getUsersByEmail->id;
 
 
-            if ($isClick) {
+            if ($isClick  && !empty($msg)) {
                 $stat = DataBaseAppChat::addMsg($msg, $my_id, $id_Recep);
             }
             $stat = true;
-
-
+ 
             include 'data.php';
 
             $allMsg = $allMsgData;
 
-            echo json_encode([
-                'allMsg' => $allMsg,
-                'etatMsg' => $stat,
-                'line' => $line,
-                'ok' => true,
-            ]);
-            exit;
+            // echo json_encode([
+            //     'allMsg' => $allMsg,
+            //     'etatMsg' => $stat,
+            //     'line' => $line,
+            //     'ok' => true,
+            // ]);
+            // exit;
         }
     } else {
         $stat = false;
     }
 } else {
     $stat = false;
-}
+} 
+
 echo json_encode([
     'allMsg' => $allMsg,
     'etatMsg' => $stat,

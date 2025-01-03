@@ -116,7 +116,7 @@ function login() {
       return response.json(); // Convertir la réponse en JSON
     })
     .then((data) => {
-      console.log("Réponse du serveur :", data);
+      // console.log("Réponse du serveur :", data);
       let divAlert = document.querySelector(".msg-fetch div");
       divAlert.parentElement.classList.remove("d-none");
       divAlert.innerHTML = data.message;
@@ -134,28 +134,39 @@ function rederect(locatnio) {
 }
 
 function videChamp($elent) {
-  let inpt = document.querySelector($elent);
-  if (inpt) {
-    inpt.value = "";
+  let inpt_vider = document.querySelector($elent);
+  if (inpt_vider) {
+    inpt_vider.value = "";
   }
+  return false;
 }
 
 /***************************************************** */
 /***************************************************** */
 /***** SEND MESSAGE ********************************** */
 
+let body_msg = document.querySelector(".body-msg");
+
+let can_scroll = true;
+
+body_msg.onmouseenter = () => { 
+  can_scroll = false;
+};
+body_msg.onmouseleave = () => { 
+  can_scroll = true;
+};
+
 let form = document.querySelector("form.chat-form");
 
 if (form) {
   let bntSend = form.querySelector("button.btn-send-msg"),
     inpt = form.querySelector("input.inpt-msg");
-  
- 
+
   setInterval(() => {
     syncData(0);
   }, 800);
 
-  form.onsubmit = (e) => { 
+  form.onsubmit = (e) => {
     e.preventDefault();
   };
 
@@ -166,16 +177,14 @@ if (form) {
       return;
     }
     syncData(1);
+    inpt.value = "";
   }; // adevent
 } // if Form
 
-
- 
 function syncData(isClick = 0) {
-
-  const formData = new FormData(form); 
-  let body_msg = document.querySelector(".body-msg") 
-  , line = document.querySelector(".line");
+  const formData = new FormData(form);
+  let body_msg = document.querySelector(".body-msg"),
+    line = document.querySelector(".line");
 
   formData.append("isClick", isClick);
 
@@ -194,31 +203,31 @@ function syncData(isClick = 0) {
         console.log("then 2  ", responce.etatMsg);
       } else {
         body_msg.innerHTML = responce.allMsg;
-        
-    scrollBottom();
-    
-        if(responce.line){
-          line.innerHTML=  "Online"   ;
-          line.classList.add('text-success');
-          line.classList.remove('text-danger');
-        }else {
-          line.innerHTML= "Ofline" ;
-          line.classList.remove('text-success');
-          line.classList.add('text-danger'); 
+
+        if (responce.line) {
+          line.innerHTML = "Online";
+          line.classList.add("text-success");
+          line.classList.remove("text-danger");
+        } else {
+          line.innerHTML = "Ofline";
+          line.classList.remove("text-success");
+          line.classList.add("text-danger");
         }
-          
+
         // body_msg.innerHTML = responce;
-      
       }
     })
     .catch((error) => {
       console.log("Erro de catch ", error);
       body_msg.innerHTML = error;
     });
-   
+
+  scrollBottom();
 }
 
 function scrollBottom() {
   let body_msg = document.querySelector(".body-msg");
-  body_msg.scrollTop = body_msg.scrollHeight;
+  if (can_scroll) {
+    body_msg.scrollTop = body_msg.scrollHeight;
+  }
 }

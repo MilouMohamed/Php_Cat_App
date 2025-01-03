@@ -6,14 +6,13 @@ let inpt_serche = document.querySelector(".box-chat input"),
   btn_clear = document.getElementById("clear_input");
 
 //  console.log(btun_serche) ;
-//   console.log(inpt_serche) ; 
+//   console.log(inpt_serche) ;
 //   console.log(btn_clear)   ;
-if( btun_serche != null){ 
+if (btun_serche != null) {
+  btun_serche.onclick = () => {
+    txt = inpt_serche.value.trim();
+    //   console.log("first");
 
-btun_serche.onclick = () => {
-  txt = inpt_serche.value.trim();
-//   console.log("first");
-  if (txt != "") {
     div_liste.classList.remove("d-none");
 
     var formData = new FormData();
@@ -32,29 +31,24 @@ btun_serche.onclick = () => {
         return response.json(); // Convertir la réponse en JSON
       })
       .then((responce) => {
-        
         div_liste.innerHTML = responce.message;
         if (!responce.ok) {
           console.log("Errors ", responce.message);
-        }else {
-          if(responce.etat)
-          document.querySelector('.etat').innerHTML="";
-        }
+        } else {
+          if (responce.etat) {
+            document.querySelector(".etat").innerHTML = "";
+          }
+        } 
       })
       .catch((error) => {
         console.log("Erro de Ctqhc " + error);
-        div_liste.innerHTML = error;
-      });
-  } else {
+        // div_liste.innerHTML = error;
+      }); 
+  };
+
+  btn_clear.onclick = () => {
+    inpt_serche.value = "";
     div_liste.classList.add("d-none");
-  }
-};
-
-
-btn_clear.onclick = () => {
-  inpt_serche.value = "";
-  div_liste.classList.add("d-none");
-  div_liste.innerHTML="";
-
-};
+    div_liste.innerHTML = "";
+  };
 }

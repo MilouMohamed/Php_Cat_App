@@ -49,7 +49,7 @@ $etat =   $user->etat  == 1 ? "Online" : "Ofline";
             </div>
 
 
-        </div><!--//container -->
+        </div> 
     </div>
 
     <br /><br /><br />
